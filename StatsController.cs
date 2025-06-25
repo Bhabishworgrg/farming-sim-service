@@ -13,17 +13,21 @@ public class StatsController {
 		stats.Add(newStat);
 	}
 
-	public List<dynamic>? ReadById(int id) {
+	public string? ReadById(int id) {
 		foreach (List<dynamic> stat in stats) {
 			if (stat[0] == id) {
-				return stat;
+				return $"id: {stat[0]}, coins: {stat[1]}, level: {stat[2]}, xp: {stat[3]}, player ID: {stat[4]}\n";
 			}
 		}
 		return null; 
 	}
 
-	public List<List<dynamic>> ReadAll() {
-		return stats;
+	public string? ReadAll() {
+		string allStats = string.Empty;
+		foreach (List<dynamic> stat in stats) {
+			allStats += $"id: {stat[0]}, coins: {stat[1]}, level: {stat[2]}, xp: {stat[3]}, player ID: {stat[4]}\n";
+		}
+		return allStats;
 	}
 
 	public void Update(int id, int coins, int level, int xp, string playerId) {
