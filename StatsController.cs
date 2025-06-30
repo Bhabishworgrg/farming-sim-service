@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 public class StatsController {
 	private List<(int, int, int, int, string)> stats = new(){
@@ -9,6 +10,16 @@ public class StatsController {
 	};
 	
 	public void Create(int coins, int level, int xp, string playerId) {
+		if (coins < 0 || level < 1 || xp < 0) {
+			throw new ArgumentOutOfRangeException("Invalid value assigned for new stats.\n");
+		}
+
+		foreach ((int, int, int, int, string) stat in stats) {
+			if (stat.Item5 == playerId) {
+				throw new InvalidOperationException($"The stat for player ID {playerId} already exists.\n");
+			}
+		}
+
 		int id = stats[^1].Item1 + 1;
 		(int, int, int, int, string) newStat = (id, coins, level, xp, playerId);
 		stats.Add(newStat);
@@ -20,15 +31,11 @@ public class StatsController {
 				return stat;
 			}
 		}
-		return null; 
+		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 
 	public List<(int, int, int, int, string)> ReadAll() {
-		List<(int, int, int, int, string)> allStats = new();
-		foreach ((int, int, int, int, string) stat in stats) {
-			allStats.Add(stat);
-		}
-		return allStats;
+		return stats;
 	}
 
 	public void Update(int id, int coins, int level, int xp, string playerId) {
@@ -37,10 +44,11 @@ public class StatsController {
 		int index;
 		for (index = 0; index < stats.Count; index++) {
 			if (stats[index].Item1 == id) {
-				break;
+				stats[index] = updatedStat;
+				return;
 			}
 		}
-		stats[index] = updatedStat;
+		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 
 	public void DeleteById(int id) {
@@ -50,5 +58,6 @@ public class StatsController {
 				return;
 			}
 		}
+		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 }
