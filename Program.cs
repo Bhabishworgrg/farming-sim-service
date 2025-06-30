@@ -1,7 +1,7 @@
 ﻿public class Program {
 	public static void Main(string[] args) {
-		StatsService statsService = new();
-		StatsController statsController = new(statsService);
+		StatService statsService = new();
+		StatController statsController = new(statsService);
 
 		statsController.ReadAll();
 

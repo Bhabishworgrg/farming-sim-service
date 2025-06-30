@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-public class StatsService {
+public class StatService {
 	private List<(int, int, int, int, string)> stats = new(){
 		(1, 100, 25, 3899, "a31d56d6-a353-48bf-b430-e73b746e3a90"),
 		(2, 1030, 51, 3438124, "9afacf79-5720-4a60-9a8c-7d9509433a4b"),

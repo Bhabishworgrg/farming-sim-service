@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System;
 
-public class StatsController {
-	private StatsService service;
+public class StatController {
+	private StatService service;
 
-	public StatsController(StatsService service) {
+	public StatController(StatService service) {
 		this.service = service;
 	}
 
