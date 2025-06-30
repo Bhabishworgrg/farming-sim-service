@@ -14,7 +14,6 @@ public class Program {
 
 		Console.WriteLine("Creating a new stat of id 5...");
 		statsController.Create(
-			id: 5, 
 			coins: 189, 
 			level: 34, 
 			xp: 128, 

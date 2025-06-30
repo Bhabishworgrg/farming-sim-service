@@ -8,7 +8,8 @@ public class StatsController {
 		(4, 9331, 37, 32801, "09c6dcc3-9b66-4184-83e5-587495fbb8e2"),
 	};
 	
-	public void Create(int id, int coins, int level, int xp, string playerId) {
+	public void Create(int coins, int level, int xp, string playerId) {
+		int id = stats[^1].Item1 + 1;
 		(int, int, int, int, string) newStat = (id, coins, level, xp, playerId);
 		stats.Add(newStat);
 	}
