@@ -13,19 +13,19 @@ public class StatsController {
 		stats.Add(newStat);
 	}
 
-	public string? ReadById(int id) {
+	public (int, int, int, int, string)? ReadById(int id) {
 		foreach ((int, int, int, int, string) stat in stats) {
 			if (stat.Item1 == id) {
-				return $"id: {stat.Item1}, coins: {stat.Item2}, level: {stat.Item3}, xp: {stat.Item4}, player ID: {stat.Item5}\n";
+				return stat;
 			}
 		}
 		return null; 
 	}
 
-	public string? ReadAll() {
-		string allStats = string.Empty;
+	public List<(int, int, int, int, string)> ReadAll() {
+		List<(int, int, int, int, string)> allStats = new();
 		foreach ((int, int, int, int, string) stat in stats) {
-			allStats += $"id: {stat.Item1}, coins: {stat.Item2}, level: {stat.Item3}, xp: {stat.Item4}, player ID: {stat.Item5}\n";
+			allStats.Add(stat);
 		}
 		return allStats;
 	}
