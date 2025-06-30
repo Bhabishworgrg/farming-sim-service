@@ -1,22 +1,22 @@
 using System.Collections.Generic;
 
 public class StatsController {
-	private List<List<dynamic>> stats = new List<List<dynamic>> {
-		new List<dynamic> {1, 100, 25, 3899, "a31d56d6-a353-48bf-b430-e73b746e3a90"},
-		new List<dynamic> {2, 1030, 51, 3438124, "9afacf79-5720-4a60-9a8c-7d9509433a4b"},
-		new List<dynamic> {3, 3645, 29, 15874, "2e36945b-82af-472d-bb8a-fd523c83c3e9"},
-		new List<dynamic> {4, 9331, 37, 32801, "09c6dcc3-9b66-4184-83e5-587495fbb8e2"},
+	private List<(int, int, int, int, string)> stats = new(){
+		(1, 100, 25, 3899, "a31d56d6-a353-48bf-b430-e73b746e3a90"),
+		(2, 1030, 51, 3438124, "9afacf79-5720-4a60-9a8c-7d9509433a4b"),
+		(3, 3645, 29, 15874, "2e36945b-82af-472d-bb8a-fd523c83c3e9"),
+		(4, 9331, 37, 32801, "09c6dcc3-9b66-4184-83e5-587495fbb8e2"),
 	};
 	
 	public void Create(int id, int coins, int level, int xp, string playerId) {
-		List<dynamic> newStat = new List<dynamic> {id, coins, level, xp, playerId};
+		(int, int, int, int, string) newStat = (id, coins, level, xp, playerId);
 		stats.Add(newStat);
 	}
 
 	public string? ReadById(int id) {
-		foreach (List<dynamic> stat in stats) {
-			if (stat[0] == id) {
-				return $"id: {stat[0]}, coins: {stat[1]}, level: {stat[2]}, xp: {stat[3]}, player ID: {stat[4]}\n";
+		foreach ((int, int, int, int, string) stat in stats) {
+			if (stat.Item1 == id) {
+				return $"id: {stat.Item1}, coins: {stat.Item2}, level: {stat.Item3}, xp: {stat.Item4}, player ID: {stat.Item5}\n";
 			}
 		}
 		return null; 
@@ -24,32 +24,30 @@ public class StatsController {
 
 	public string? ReadAll() {
 		string allStats = string.Empty;
-		foreach (List<dynamic> stat in stats) {
-			allStats += $"id: {stat[0]}, coins: {stat[1]}, level: {stat[2]}, xp: {stat[3]}, player ID: {stat[4]}\n";
+		foreach ((int, int, int, int, string) stat in stats) {
+			allStats += $"id: {stat.Item1}, coins: {stat.Item2}, level: {stat.Item3}, xp: {stat.Item4}, player ID: {stat.Item5}\n";
 		}
 		return allStats;
 	}
 
 	public void Update(int id, int coins, int level, int xp, string playerId) {
-		List<dynamic> updatedStat = new List<dynamic> {id, coins, level, xp, playerId};
+		(int, int, int, int, string) updatedStat = (id, coins, level, xp, playerId);
 
 		int index;
 		for (index = 0; index < stats.Count; index++) {
-			if (stats[index][0] == id) {
+			if (stats[index].Item1 == id) {
 				break;
 			}
 		}
-
 		stats[index] = updatedStat;
 	}
 
 	public void DeleteById(int id) {
-		List<dynamic>? statToDelete = null;
-		foreach (List<dynamic> stat in stats) {
-			if (stat[0] == id) {
-				statToDelete = stat;
+		foreach ((int, int, int, int, string) stat in stats) {
+			if (stat.Item1 == id) {
+				stats.Remove(stat);
+				return;
 			}
 		}
-		stats.Remove(statToDelete!);
 	}
 }
