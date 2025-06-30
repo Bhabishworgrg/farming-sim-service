@@ -2,62 +2,63 @@ using System.Collections.Generic;
 using System;
 
 public class StatsController {
-	private List<(int, int, int, int, string)> stats = new(){
-		(1, 100, 25, 3899, "a31d56d6-a353-48bf-b430-e73b746e3a90"),
-		(2, 1030, 51, 3438124, "9afacf79-5720-4a60-9a8c-7d9509433a4b"),
-		(3, 3645, 29, 15874, "2e36945b-82af-472d-bb8a-fd523c83c3e9"),
-		(4, 9331, 37, 32801, "09c6dcc3-9b66-4184-83e5-587495fbb8e2"),
-	};
-	
+	private StatsService service;
+
+	public StatsController(StatsService service) {
+		this.service = service;
+	}
+
 	public void Create(int coins, int level, int xp, string playerId) {
-		if (coins < 0 || level < 1 || xp < 0) {
-			throw new ArgumentOutOfRangeException("Invalid value assigned for new stats.\n");
+		Console.WriteLine("INFO: Creating a new stat...");
+		try {
+			int id = service.Create(coins, level, xp, playerId);
+			Console.WriteLine($"SUCCESS: Stat of id {id} created.");
+		} catch (Exception exception) {
+			Console.WriteLine($"ERROR: {exception.Message}");
 		}
-
-		foreach ((int, int, int, int, string) stat in stats) {
-			if (stat.Item5 == playerId) {
-				throw new InvalidOperationException($"The stat for player ID {playerId} already exists.\n");
-			}
-		}
-
-		int id = stats[^1].Item1 + 1;
-		(int, int, int, int, string) newStat = (id, coins, level, xp, playerId);
-		stats.Add(newStat);
 	}
 
-	public (int, int, int, int, string)? ReadById(int id) {
-		foreach ((int, int, int, int, string) stat in stats) {
-			if (stat.Item1 == id) {
-				return stat;
-			}
+	public void ReadById(int id) {
+		Console.WriteLine($"INFO: Reading stat of id {id}...");
+		try {
+			(int, int, int, int, string) stat = service.ReadById(id);
+			Console.WriteLine($"\tid:        {stat.Item1}");
+			Console.WriteLine($"\tcoins:     {stat.Item2}");
+			Console.WriteLine($"\tlevel:     {stat.Item3}");
+			Console.WriteLine($"\txp:        {stat.Item4}");
+			Console.WriteLine($"\tplayer id: {stat.Item5}");
+		} catch (Exception exception) {
+			Console.WriteLine($"ERROR: {exception.Message}");
 		}
-		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 
-	public List<(int, int, int, int, string)> ReadAll() {
-		return stats;
+	public void ReadAll() {
+		Console.WriteLine("INFO: Reading all stats...");
+		Console.WriteLine("\tid\tcoins\tlevel\txp\tplayer id");
+
+		List<(int, int, int, int, string)> stats = service.ReadAll();
+		foreach ((int, int, int, int, string) stat in stats) {
+			Console.WriteLine($"\t{stat.Item1}\t{stat.Item2}\t{stat.Item3}\t{stat.Item4}\t{stat.Item5}");
+		}
 	}
 
 	public void Update(int id, int coins, int level, int xp, string playerId) {
-		(int, int, int, int, string) updatedStat = (id, coins, level, xp, playerId);
-
-		int index;
-		for (index = 0; index < stats.Count; index++) {
-			if (stats[index].Item1 == id) {
-				stats[index] = updatedStat;
-				return;
-			}
+		Console.WriteLine($"INFO: Updating stat of id {id}...");
+		try {
+			service.Update(id, coins, level, xp, playerId);
+			Console.WriteLine($"SUCCESS: Stat of id {id} updated.");
+		} catch (Exception exception) {
+			Console.WriteLine($"ERROR: {exception.Message}");
 		}
-		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 
-	public void DeleteById(int id) {
-		foreach ((int, int, int, int, string) stat in stats) {
-			if (stat.Item1 == id) {
-				stats.Remove(stat);
-				return;
-			}
+	public void Delete(int id) {
+		Console.WriteLine($"INFO: Deleting stat of id {id}...");
+		try {
+			service.Delete(id);
+			Console.WriteLine($"SUCCESS: Stat of id {id} deleted.");
+		} catch (Exception exception) {
+			Console.WriteLine($"ERROR: {exception.Message}");
 		}
-		throw new KeyNotFoundException($"Stat of id {id} was not found.\n");
 	}
 }
