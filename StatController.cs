@@ -1,13 +1,13 @@
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System;
 
-public class StatController {
-	private StatService service;
+[ApiController]
+[Route("api/stats")]
+public class StatController : ControllerBase {
+	private StatService service = new();
 
-	public StatController(StatService service) {
-		this.service = service;
-	}
-
+	[HttpPost]
 	public void Create(int coins, int level, int xp, string playerId) {
 		Console.WriteLine("INFO: Creating a new stat...");
 		try {
@@ -18,6 +18,7 @@ public class StatController {
 		}
 	}
 
+	[HttpGet("{id}")]
 	public void ReadById(int id) {
 		Console.WriteLine($"INFO: Reading stat of id {id}...");
 		try {
@@ -32,6 +33,7 @@ public class StatController {
 		}
 	}
 
+	[HttpGet]
 	public void ReadAll() {
 		Console.WriteLine("INFO: Reading all stats...");
 		Console.WriteLine("\tid\tcoins\tlevel\txp\tplayer id");
@@ -42,6 +44,7 @@ public class StatController {
 		}
 	}
 
+	[HttpPut("{id}")]
 	public void Update(int id, int coins, int level, int xp, string playerId) {
 		Console.WriteLine($"INFO: Updating stat of id {id}...");
 		try {
@@ -52,6 +55,7 @@ public class StatController {
 		}
 	}
 
+	[HttpDelete("{id}")]
 	public void Delete(int id) {
 		Console.WriteLine($"INFO: Deleting stat of id {id}...");
 		try {
