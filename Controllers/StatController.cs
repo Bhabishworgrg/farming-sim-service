@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
 
 [ApiController]
 [Route("api/stats")]
@@ -8,61 +7,48 @@ public class StatController : ControllerBase {
 	private StatService service = new();
 
 	[HttpPost]
-	public void Create(int coins, int level, int xp, string playerId) {
-		Console.WriteLine("INFO: Creating a new stat...");
-		try {
-			int id = service.Create(coins, level, xp, playerId);
-			Console.WriteLine($"SUCCESS: Stat of id {id} created.");
-		} catch (Exception exception) {
-			Console.WriteLine($"ERROR: {exception.Message}");
-		}
+	public DataResult<StatResponseDto> CreateStat(StatRequestDto request) {
+		StatResponseDto response = service.CreateStat(request);
+		return new() {
+			Model=response,
+			StatusCode=201,
+			Message=$"Stat #{response.Id} created successfully."
+		};
 	}
 
 	[HttpGet("{id}")]
-	public void ReadById(int id) {
-		Console.WriteLine($"INFO: Reading stat of id {id}...");
-		try {
-			(int, int, int, int, string) stat = service.ReadById(id);
-			Console.WriteLine($"\tid:        {stat.Item1}");
-			Console.WriteLine($"\tcoins:     {stat.Item2}");
-			Console.WriteLine($"\tlevel:     {stat.Item3}");
-			Console.WriteLine($"\txp:        {stat.Item4}");
-			Console.WriteLine($"\tplayer id: {stat.Item5}");
-		} catch (Exception exception) {
-			Console.WriteLine($"ERROR: {exception.Message}");
-		}
+	public DataResult<StatResponseDto> ReadStat(int id) {
+		return new() {
+			Model=service.ReadStat(id),
+			StatusCode=200,
+			Message=$"Stat #{id} retrieved successfully."
+		};
 	}
 
 	[HttpGet]
-	public void ReadAll() {
-		Console.WriteLine("INFO: Reading all stats...");
-		Console.WriteLine("\tid\tcoins\tlevel\txp\tplayer id");
-
-		List<(int, int, int, int, string)> stats = service.ReadAll();
-		foreach ((int, int, int, int, string) stat in stats) {
-			Console.WriteLine($"\t{stat.Item1}\t{stat.Item2}\t{stat.Item3}\t{stat.Item4}\t{stat.Item5}");
-		}
+	public DataResult<List<StatResponseDto>> ReadStats() {
+		return new() {
+			Model=service.ReadStats(),
+			StatusCode=200,
+			Message="Stats retrieved successfully."
+		};
 	}
 
 	[HttpPut("{id}")]
-	public void Update(int id, int coins, int level, int xp, string playerId) {
-		Console.WriteLine($"INFO: Updating stat of id {id}...");
-		try {
-			service.Update(id, coins, level, xp, playerId);
-			Console.WriteLine($"SUCCESS: Stat of id {id} updated.");
-		} catch (Exception exception) {
-			Console.WriteLine($"ERROR: {exception.Message}");
-		}
+	public DataResult<StatResponseDto> UpdateStat(int id, StatRequestDto request) {
+		return new() {
+			Model=service.UpdateStat(id, request),
+			StatusCode=200,
+			Message=$"Stat #{id} updated successfully."
+		};
 	}
 
 	[HttpDelete("{id}")]
-	public void Delete(int id) {
-		Console.WriteLine($"INFO: Deleting stat of id {id}...");
-		try {
-			service.Delete(id);
-			Console.WriteLine($"SUCCESS: Stat of id {id} deleted.");
-		} catch (Exception exception) {
-			Console.WriteLine($"ERROR: {exception.Message}");
-		}
+	public DataResult<StatResponseDto> Delete(int id) {
+		return new() {
+			Model=service.DeleteStat(id),
+			StatusCode=200,
+			Message=$"Stat #{id} deleted successfully."
+		};
 	}
 }
