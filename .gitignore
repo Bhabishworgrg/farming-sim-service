@@ -65,6 +65,10 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# .NET Configuration
+launchSettings.json
+appsettings*.json
+
 # Tye
 .tye/
 
