@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 
 public class StatService {
 	private static List<Stat> stats = new() {
-		new() {Id=1, Coins=100, Level=25, Xp=3899, PlayerId=Guid.Parse("a31d56d6-a353-48bf-b430-e73b746e3a90")},
-		new() {Id=2, Coins=930, Level=51, Xp=3438124, PlayerId=Guid.Parse("9afacf79-5720-4a60-9a8c-7d9509433a4b")},
-		new() {Id=3, Coins=645, Level=29, Xp=15874, PlayerId=Guid.Parse("2e36945b-82af-472d-bb8a-fd523c83c3e9")},
-		new() {Id=4, Coins=331, Level=37, Xp=32801, PlayerId=Guid.Parse("09c6dcc3-9b66-4184-83e5-587495fbb8e2")},
+		new() {Id=1, Coins=100, Level=25, Xp=3899},
+		new() {Id=2, Coins=930, Level=51, Xp=3438124},
+		new() {Id=3, Coins=645, Level=29, Xp=15874},
+		new() {Id=4, Coins=331, Level=37, Xp=32801},
 	};
 	
 	public StatResponseDto CreateStat(StatRequestDto request) {
@@ -15,8 +14,7 @@ public class StatService {
 			Id=id, 
 			Coins=request.Coins, 
 			Level=request.Level, 
-			Xp=request.Xp, 
-			PlayerId=request.PlayerId
+			Xp=request.Xp,
 		};
 
 		stats.Add(stat);
@@ -26,7 +24,6 @@ public class StatService {
 			Coins=stat.Coins, 
 			Level=stat.Level, 
 			Xp=stat.Xp, 
-			PlayerId=stat.PlayerId
 		};
 	}
 	
@@ -38,7 +35,6 @@ public class StatService {
 					Coins=stat.Coins,
 					Level=stat.Level,
 					Xp=stat.Xp,
-					PlayerId=stat.PlayerId
 				};
 			}
 		}
@@ -53,7 +49,6 @@ public class StatService {
 				Coins=stat.Coins,
 				Level=stat.Level,
 				Xp=stat.Xp,
-				PlayerId=stat.PlayerId
 			});
 		}
 		return result;
@@ -67,7 +62,6 @@ public class StatService {
 					Coins=request.Coins,
 					Level=request.Level,
 					Xp=request.Xp,
-					PlayerId=request.PlayerId
 				};
 				
 				stats[i] = stat;
@@ -77,7 +71,6 @@ public class StatService {
 					Coins=stat.Coins,
 					Level=stat.Level,
 					Xp=stat.Xp,
-					PlayerId=stat.PlayerId
 				};
 			}
 		}
@@ -93,7 +86,6 @@ public class StatService {
 					Coins=stat.Coins,
 					Level=stat.Level,
 					Xp=stat.Xp,
-					PlayerId=stat.PlayerId
 				};
 			}
 		}
