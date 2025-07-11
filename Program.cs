@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 
-public class Program {
-	public static void Main(string[] args) {
-		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-		builder.Services.AddControllers();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-		WebApplication app = builder.Build();
-		app.MapControllers();
-		app.Run();
-	}
-}
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(options =>
+	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+WebApplication app = builder.Build();
+app.MapControllers();
+app.Run();
