@@ -11,7 +11,7 @@ public class BaseRepository : IBaseRepository {
 		_context = context;
 	}
 
-    public DataResult<T> Create<T>(T model) where T : class {
+    public DataResult<T> Create<T>(T model) where T : BaseEntity {
 		try {
 			EntityEntry<T> entry = _context.Set<T>().Add(model);
 			_context.SaveChanges();
@@ -19,7 +19,7 @@ public class BaseRepository : IBaseRepository {
             return new DataResult<T> {
 				Model = entry.Entity,
 				StatusCode = (int) HttpStatusCode.Created,
-				Message = $"{typeof(T).Name} created successfully."
+				Message = $"{typeof(T).Name} #{model.Id} created successfully."
 			};
 		} catch (DbUpdateException ex) {
 			return new DataResult<T> {
@@ -29,23 +29,23 @@ public class BaseRepository : IBaseRepository {
 		}
     }
 
-    public DataResult<T> Read<T>(int id) where T : class {
+    public DataResult<T> Read<T>(int id) where T : BaseEntity {
 		T? entity = _context.Set<T>().Find(id);
 		if (entity == null) {
 			return new DataResult<T> {
 				StatusCode = (int) HttpStatusCode.NotFound,
-				Message = $"{typeof(T).Name} not found."
+				Message = $"{typeof(T).Name} #{id} not found."
 			};
 		}
 
 		return new DataResult<T> {
 			Model = entity,
 			StatusCode = (int) HttpStatusCode.OK,
-			Message = $"{typeof(T).Name} retrieved successfully."
+			Message = $"{typeof(T).Name} #{id} retrieved successfully."
 		};
     }
 
-    public DataResult<List<T>> ReadAll<T>() where T : class {
+    public DataResult<List<T>> ReadAll<T>() where T : BaseEntity {
 		List<T> list = _context.Set<T>().ToList();
 		return new DataResult<List<T>> {
 			Model = list,
@@ -54,7 +54,7 @@ public class BaseRepository : IBaseRepository {
 		};
     }
 
-    public DataResult<T> Update<T>(T model) where T : class {
+    public DataResult<T> Update<T>(T model) where T : BaseEntity {
 		try {
 			EntityEntry<T> entry = _context.Set<T>().Update(model);
 			_context.SaveChanges();
@@ -62,7 +62,7 @@ public class BaseRepository : IBaseRepository {
 			return new DataResult<T> {
 				Model = entry.Entity,
 				StatusCode = (int) HttpStatusCode.OK,
-				Message = $"{typeof(T).Name} updated successfully."
+				Message = $"{typeof(T).Name} #{model.Id} updated successfully."
 			};
 		} catch (DbUpdateException ex) {
 			return new DataResult<T> {
@@ -72,12 +72,12 @@ public class BaseRepository : IBaseRepository {
 		}
     }
 
-    public DataResult<T> Delete<T>(int id) where T : class {
+    public DataResult<T> Delete<T>(int id) where T : BaseEntity {
 		T? entity = _context.Set<T>().Find(id);
 		if (entity == null) {
 			return new DataResult<T> {
 				StatusCode = (int) HttpStatusCode.NotFound,
-				Message = $"{typeof(T).Name} not found."
+				Message = $"{typeof(T).Name} #{id} not found."
 			};
 		}
 
@@ -93,7 +93,7 @@ public class BaseRepository : IBaseRepository {
 
 		return new DataResult<T> {
 			StatusCode = (int) HttpStatusCode.OK,
-			Message = $"{typeof(T).Name} deleted successfully."
+			Message = $"{typeof(T).Name} #{id} deleted successfully."
 		};
 	}
 }
