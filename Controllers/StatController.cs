@@ -16,7 +16,7 @@ public class StatController : ControllerBase {
 	}
 
 	[HttpGet("{id}")]
-	public DataResult<StatResponseDto> Read(int id) {
+	public DataResult<StatResponseDto> Read([FromRoute] int id) {
 		return _service.Read(id);
 	}
 
@@ -26,12 +26,12 @@ public class StatController : ControllerBase {
 	}
 
 	[HttpPut("{id}")]
-	public DataResult<StatResponseDto> Update(int id, StatRequestDto requestDto) {
+	public DataResult<StatResponseDto> Update([FromRoute] int id, StatRequestDto requestDto) {
 		return _service.Update(id, requestDto);
 	}
 
 	[HttpDelete("{id}")]
-	public DataResult<StatResponseDto> Delete(int id) {
+	public DataResult<StatResponseDto> Delete([FromRoute] int id) {
 		return _service.Delete(id);
 	}
 }
