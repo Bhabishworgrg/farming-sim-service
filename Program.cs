@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IStatService, StatService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 
 WebApplication app = builder.Build();
 app.MapControllers();
