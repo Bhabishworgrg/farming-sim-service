@@ -12,7 +12,8 @@ public class StatService : IStatService {
 		Stat stat = new() {
 			Xp=requestDto.Xp,
 			Coins=requestDto.Coins,
-			Level=requestDto.Level
+			Level=requestDto.Level,
+			PlayerId=requestDto.PlayerId
 		};
 
 		DataResult<Stat> result = _repository.Create(stat);
@@ -21,7 +22,8 @@ public class StatService : IStatService {
 			Id=result.Model.Id,
 			Xp=result.Model.Xp,
 			Coins=result.Model.Coins,
-			Level=result.Model.Level
+			Level=requestDto.Level,
+			PlayerId=requestDto.PlayerId
 		};
 
 		return new DataResult<StatResponseDto> {
@@ -37,7 +39,8 @@ public class StatService : IStatService {
 			Id=result.Model.Id,
 			Xp=result.Model.Xp,
 			Coins=result.Model.Coins,
-			Level=result.Model.Level
+			Level=result.Model.Level,
+			PlayerId=result.Model.PlayerId
 		};
 
 		return new DataResult<StatResponseDto> {
@@ -54,7 +57,8 @@ public class StatService : IStatService {
 			Id=stat.Id,
 			Xp=stat.Xp,
 			Coins=stat.Coins,
-			Level=stat.Level
+			Level=stat.Level,
+			PlayerId=stat.PlayerId
 		}).ToList();
 
 		return new DataResult<List<StatResponseDto>> {
@@ -69,7 +73,8 @@ public class StatService : IStatService {
 			Id=id,
 			Xp=requestDto.Xp,
 			Coins=requestDto.Coins,
-			Level=requestDto.Level
+			Level=requestDto.Level,
+			PlayerId=requestDto.PlayerId
 		};
 
 		DataResult<Stat> result = _repository.Update(stat);
@@ -78,7 +83,8 @@ public class StatService : IStatService {
 			Id=result.Model.Id,
 			Xp=result.Model.Xp,
 			Coins=result.Model.Coins,
-			Level=result.Model.Level
+			Level=result.Model.Level,
+			PlayerId=result.Model.PlayerId
 		};
 
 		return new DataResult<StatResponseDto> {
