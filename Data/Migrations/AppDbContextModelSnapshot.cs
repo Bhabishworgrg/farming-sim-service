@@ -231,7 +231,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("Stat", b =>
@@ -258,7 +258,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Stats");
+                    b.ToTable("Stats", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
