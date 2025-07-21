@@ -12,7 +12,8 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 
 builder.Services.AddIdentityCore<IdentityUser>()
-	.AddEntityFrameworkStores<AppDbContext>();
+	.AddEntityFrameworkStores<AppDbContext>()
+	.AddSignInManager();
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
