@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 [ApiController]
-[Route("api/stats")]
+[Route("api/[controller]s")]
 public class StatController : ControllerBase {
 	private IStatService _service;
 

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 [ApiController]
-[Route("api/players")]
+[Route("api/[controller]s")]
 public class PlayerController : ControllerBase {
 	private IPlayerService _service;
 

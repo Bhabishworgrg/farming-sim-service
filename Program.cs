@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IStatService, StatService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 WebApplication app = builder.Build();
 app.UseAuthentication();
