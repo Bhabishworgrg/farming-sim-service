@@ -37,4 +37,35 @@ public class AuthService : IAuthService {
 			Message = $"Error: {errors}"
 		};
     }
+
+    public DataResult<LoginResponseDto> Login(LoginRequestDto requestDto)
+    {
+		IdentityUser? user = _userManager.FindByEmailAsync(requestDto.Email).Result;
+		if (user == null) {
+			return new DataResult<LoginResponseDto> {
+				StatusCode = (int) HttpStatusCode.Unauthorized,
+				Message = "Invalid user or password."
+			};
+		}
+
+		bool isPasswordValid = _userManager.CheckPasswordAsync(user, requestDto.Password).Result;
+		if(isPasswordValid) {
+			LoginResponseDto responseDto = new() {
+				Id=user.Id,
+				UserName=user.UserName!,
+				Email=user.Email!
+			};
+
+			return new DataResult<LoginResponseDto> {
+				Model = responseDto,
+				StatusCode = (int) HttpStatusCode.OK,
+				Message = $"User {user.Id} logged in successfully."
+			};
+		}
+
+		return new DataResult<LoginResponseDto> {
+			StatusCode = (int) HttpStatusCode.Unauthorized,
+			Message = "Invalid user or password."
+		};
+    }
 }

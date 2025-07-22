@@ -13,4 +13,9 @@ public class AuthController : ControllerBase {
 	public DataResult<RegisterResponseDto> Register(RegisterRequestDto requestDto) {
 		return _service.Register(requestDto);
 	}
+
+	[HttpPost("login")]
+	public DataResult<LoginResponseDto> Login(LoginRequestDto requestDto) {
+		return _service.Login(requestDto);
+	}
 }
