@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 
 public class AuthService : IAuthService {
 	private UserManager<IdentityUser> _userManager;
+	private ITokenService _tokenService;
 
-	public AuthService(UserManager<IdentityUser> userManager) {
+	public AuthService(UserManager<IdentityUser> userManager, ITokenService tokenService) {
 		_userManager = userManager;
+		_tokenService = tokenService;
 	}
 
     public DataResult<RegisterResponseDto> Register(RegisterRequestDto requestDto) {
@@ -56,8 +58,9 @@ public class AuthService : IAuthService {
 			};
 		}
 
+		string token = _tokenService.GenerateToken(user);
 		LoginResponseDto responseDto = new() {
-			Token="",
+			Token= token,
 			Id=user.Id,
 			UserName=user.UserName!,
 			Email=user.Email!
