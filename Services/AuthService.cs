@@ -49,23 +49,24 @@ public class AuthService : IAuthService {
 		}
 
 		bool isPasswordValid = _userManager.CheckPasswordAsync(user, requestDto.Password).Result;
-		if(isPasswordValid) {
-			LoginResponseDto responseDto = new() {
-				Id=user.Id,
-				UserName=user.UserName!,
-				Email=user.Email!
-			};
-
+		if(!isPasswordValid) {
 			return new DataResult<LoginResponseDto> {
-				Model = responseDto,
-				StatusCode = (int) HttpStatusCode.OK,
-				Message = $"User {user.Id} logged in successfully."
+				StatusCode = (int) HttpStatusCode.Unauthorized,
+				Message = "Invalid user or password."
 			};
 		}
 
+		LoginResponseDto responseDto = new() {
+			Token="",
+			Id=user.Id,
+			UserName=user.UserName!,
+			Email=user.Email!
+		};
+
 		return new DataResult<LoginResponseDto> {
-			StatusCode = (int) HttpStatusCode.Unauthorized,
-			Message = "Invalid user or password."
+			Model = responseDto,
+			StatusCode = (int) HttpStatusCode.OK,
+			Message = $"User {user.Id} logged in successfully."
 		};
     }
 }
