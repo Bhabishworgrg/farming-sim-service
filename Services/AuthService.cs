@@ -13,8 +13,8 @@ public class AuthService : IAuthService {
 
     public DataResult<RegisterResponseDto> Register(RegisterRequestDto requestDto) {
 		IdentityUser user = new() {
-			UserName=requestDto.UserName,
-			Email=requestDto.Email
+			Email=requestDto.Email,
+			UserName=requestDto.Email
 		};
 
 		IdentityResult result = _userManager.CreateAsync(user, requestDto.Password).Result;
@@ -22,7 +22,6 @@ public class AuthService : IAuthService {
 		if (result.Succeeded) {
 			RegisterResponseDto responseDto = new() {
 				Id=user.Id,
-				UserName=user.UserName,
 				Email=user.Email
 			};
 
@@ -62,7 +61,6 @@ public class AuthService : IAuthService {
 		LoginResponseDto responseDto = new() {
 			Token= token,
 			Id=user.Id,
-			UserName=user.UserName!,
 			Email=user.Email!
 		};
 
