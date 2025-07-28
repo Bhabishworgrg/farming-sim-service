@@ -7,4 +7,5 @@ public class AppDbContext : IdentityDbContext {
 	public DbSet<Player> Players => Set<Player>();
 	public DbSet<Stat> Stats => Set<Stat>();
 	public DbSet<Patch> Patches => Set<Patch>();
+	public DbSet<Building> Buildings => Set<Building>();
 }
