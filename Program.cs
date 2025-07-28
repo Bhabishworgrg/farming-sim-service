@@ -17,6 +17,10 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddIdentityCore<IdentityUser>()
 	.AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.Configure<IdentityOptions>(options =>
+	options.User.RequireUniqueEmail = true
+);
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options => 
 		options.TokenValidationParameters = new TokenValidationParameters {
