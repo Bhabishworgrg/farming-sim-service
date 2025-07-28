@@ -8,4 +8,5 @@ public class AppDbContext : IdentityDbContext {
 	public DbSet<Stat> Stats => Set<Stat>();
 	public DbSet<Patch> Patches => Set<Patch>();
 	public DbSet<Building> Buildings => Set<Building>();
+	public DbSet<Storage> Storage => Set<Storage>();
 }
