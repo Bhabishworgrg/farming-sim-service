@@ -5,10 +5,16 @@ using Microsoft.AspNetCore.Identity;
 public class AuthService : IAuthService {
 	private UserManager<IdentityUser> _userManager;
 	private ITokenService _tokenService;
+	private IPlayerService _playerService;
 
-	public AuthService(UserManager<IdentityUser> userManager, ITokenService tokenService) {
+	public AuthService(
+		UserManager<IdentityUser> userManager, 
+		ITokenService tokenService, 
+		IPlayerService playerService
+	) {
 		_userManager = userManager;
 		_tokenService = tokenService;
+		_playerService = playerService;
 	}
 
     public DataResult<RegisterResponseDto> Register(RegisterRequestDto requestDto) {
@@ -19,23 +25,38 @@ public class AuthService : IAuthService {
 
 		IdentityResult result = _userManager.CreateAsync(user, requestDto.Password).Result;
 
-		if (result.Succeeded) {
-			RegisterResponseDto responseDto = new() {
-				Id=user.Id,
-				Email=user.Email
-			};
-
+		if (!result.Succeeded) {
+			string errors = string.Join(", ", result.Errors.Select(
+				error => error.Description
+			));
 			return new DataResult<RegisterResponseDto> {
-				Model = responseDto,
-				StatusCode = (int) HttpStatusCode.Created,
-				Message = $"User #{user.Id} registered successfully."
+				StatusCode = (int) HttpStatusCode.BadRequest,
+				Message = $"Error: {errors}"
 			};
 		}
 
-		string errors = string.Join(", ", result.Errors.Select(error => error.Description));
+		PlayerRequestDto playerRequestDto = new() {
+			Username=requestDto.Username
+		};
+		DataResult<PlayerResponseDto> playerResult = _playerService.Create(playerRequestDto);
+
+		if (playerResult.StatusCode != (int) HttpStatusCode.OK) {
+			return new DataResult<RegisterResponseDto> {
+				StatusCode=playerResult.StatusCode,
+				Message=playerResult.Message
+			};
+		}
+
+		RegisterResponseDto responseDto = new() {
+			Id=user.Id,
+			Email=user.Email,
+			Username=playerResult.Model!.Username
+		};
+
 		return new DataResult<RegisterResponseDto> {
-			StatusCode = (int) HttpStatusCode.BadRequest,
-			Message = $"Error: {errors}"
+			Model = responseDto,
+			StatusCode = (int) HttpStatusCode.Created,
+			Message = $"User #{user.Id} registered successfully."
 		};
     }
 
