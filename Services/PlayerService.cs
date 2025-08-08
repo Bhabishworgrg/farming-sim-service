@@ -1,16 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 public class PlayerService : IPlayerService {
 	private IBaseRepository _repository;
+	private ITokenService _tokenService;
 
-	public PlayerService(IBaseRepository repository) {
+	public PlayerService(IBaseRepository repository, ITokenService tokenService) {
 		_repository = repository;
+		_tokenService = tokenService;
 	}
 
     public DataResult<PlayerResponseDto> Create(PlayerRequestDto requestDto) {
+		string? userId = _tokenService.GetUserIdFromToken();	
+		if (userId == null) {
+			return new DataResult<PlayerResponseDto> {
+				StatusCode = (int) HttpStatusCode.Unauthorized,
+				Message = "User is not authenticated."
+			};
+		}
 		Player player = new() {
-			Username=requestDto.Username
+			Username=requestDto.Username,
+			UserId=userId
 		};
 
 		DataResult<Player> result = _repository.Create(player);
@@ -85,4 +96,3 @@ public class PlayerService : IPlayerService {
 		};
     }
 }
-
