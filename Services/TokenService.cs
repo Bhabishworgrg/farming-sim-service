@@ -2,20 +2,21 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-public class TokenService : ITokenService
-{
+public class TokenService : ITokenService {
 	private IConfiguration _configuration;
+	private HttpContext? _httpContext;
 
-	public TokenService(IConfiguration configuration) {
+	public TokenService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor) {
 		_configuration = configuration;
+		_httpContext = httpContextAccessor.HttpContext;
 	}
 
-    public string GenerateToken(IdentityUser user)
-    {
+    public string GenerateToken(IdentityUser user) {
 		Claim[] claims = new[] {
 			new Claim(JwtRegisteredClaimNames.Sub, user.Id),
 			new Claim(JwtRegisteredClaimNames.Email, user.Email!)
@@ -36,4 +37,8 @@ public class TokenService : ITokenService
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+	public string? GetUserIdFromToken() {
+		return _httpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+	}
 }

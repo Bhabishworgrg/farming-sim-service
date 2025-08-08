@@ -37,6 +37,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		}
 	);
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
