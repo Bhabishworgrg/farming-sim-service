@@ -21,6 +21,9 @@ public class PlayerService : IPlayerService {
 		}
 		Player player = new() {
 			Username=requestDto.Username,
+			Xp=requestDto.Xp,
+			Coins=requestDto.Coins,
+			Level=requestDto.Level,
 			UserId=userId
 		};
 
@@ -28,7 +31,10 @@ public class PlayerService : IPlayerService {
 
 		PlayerResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
-			Username=result.Model.Username
+			Username=result.Model.Username,
+			Xp=result.Model.Xp,
+			Coins=result.Model.Coins,
+			Level=requestDto.Level
 		};
 
 		return new DataResult<PlayerResponseDto> {
@@ -42,7 +48,10 @@ public class PlayerService : IPlayerService {
 		DataResult<Player> result = _repository.Read<Player>(id);
 		PlayerResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
-			Username=result.Model.Username
+			Username=result.Model.Username,
+			Xp=result.Model.Xp,
+			Coins=result.Model.Coins,
+			Level=result.Model.Level
 		};
 
 		return new DataResult<PlayerResponseDto> {
@@ -57,7 +66,10 @@ public class PlayerService : IPlayerService {
 
 		List<PlayerResponseDto> responseDtos = result.Model!.Select(player => new PlayerResponseDto {
 			Id=player.Id,
-			Username=player.Username
+			Username=player.Username,
+			Xp=player.Xp,
+			Coins=player.Coins,
+			Level=player.Level
 		}).ToList();
 
 		return new DataResult<List<PlayerResponseDto>> {
@@ -70,7 +82,10 @@ public class PlayerService : IPlayerService {
     public DataResult<PlayerResponseDto> Update(int id, PlayerRequestDto requestDto) {
 		Player player = new() {
 			Id=id,
-			Username=requestDto.Username
+			Username=requestDto.Username,
+			Xp=requestDto.Xp,
+			Coins=requestDto.Coins,
+			Level=requestDto.Level
 		};
 
 		DataResult<Player> result = _repository.Update(player);

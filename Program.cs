@@ -45,7 +45,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
-builder.Services.AddScoped<IStatService, StatService>();
 builder.Services.AddScoped<IPatchService, PatchService>();
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IStorageService, StorageService>();

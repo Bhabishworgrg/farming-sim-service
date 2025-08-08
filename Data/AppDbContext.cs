@@ -5,7 +5,6 @@ public class AppDbContext : IdentityDbContext {
 	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
 	public DbSet<Player> Players => Set<Player>();
-	public DbSet<Stat> Stats => Set<Stat>();
 	public DbSet<Patch> Patches => Set<Patch>();
 	public DbSet<Building> Buildings => Set<Building>();
 	public DbSet<Storage> Storage => Set<Storage>();
