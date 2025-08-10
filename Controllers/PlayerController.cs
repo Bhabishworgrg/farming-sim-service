@@ -25,6 +25,11 @@ public class PlayerController : ControllerBase {
 		return _service.ReadAll(); 
 	}
 
+	[HttpGet("me")]
+	public DataResult<PlayerFullResponseDto> ReadMe() {
+		return _service.ReadMe();
+	}
+
 	[HttpPut("{id}")]
 	public DataResult<PlayerResponseDto> Update([FromRoute] int id, PlayerRequestDto requestDto) {
 		return _service.Update(id, requestDto);
@@ -35,4 +40,3 @@ public class PlayerController : ControllerBase {
 		return _service.Delete(id);
 	}
 }
-
