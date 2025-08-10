@@ -39,6 +39,6 @@ public class TokenService : ITokenService {
     }
 
 	public string? GetUserIdFromToken() {
-		return _httpContext?.User.FindFirstValue(JwtRegisteredClaimNames.Sub);
+		return _httpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 	}
 }
