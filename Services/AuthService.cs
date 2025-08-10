@@ -38,9 +38,9 @@ public class AuthService : IAuthService {
 		PlayerRequestDto playerRequestDto = new() {
 			Username=requestDto.Username
 		};
-		DataResult<PlayerResponseDto> playerResult = _playerService.Create(playerRequestDto);
+		DataResult<PlayerResponseDto> playerResult = _playerService.Create(playerRequestDto, user.Id);
 
-		if (playerResult.StatusCode != (int) HttpStatusCode.OK) {
+		if (playerResult.StatusCode != (int) HttpStatusCode.Created) {
 			return new DataResult<RegisterResponseDto> {
 				StatusCode=playerResult.StatusCode,
 				Message=playerResult.Message

@@ -11,13 +11,15 @@ public class PlayerService : IPlayerService {
 		_tokenService = tokenService;
 	}
 
-    public DataResult<PlayerResponseDto> Create(PlayerRequestDto requestDto) {
-		string? userId = _tokenService.GetUserIdFromToken();	
+    public DataResult<PlayerResponseDto> Create(PlayerRequestDto requestDto, string? userId = null) {
 		if (userId == null) {
-			return new DataResult<PlayerResponseDto> {
-				StatusCode = (int) HttpStatusCode.Unauthorized,
-				Message = "User is not authenticated."
-			};
+			userId = _tokenService.GetUserIdFromToken();	
+			if (userId == null) {
+				return new DataResult<PlayerResponseDto> {
+					StatusCode = (int) HttpStatusCode.Unauthorized,
+					Message = "User is not authenticated."
+				};
+			}
 		}
 
 		Player player = new() {
