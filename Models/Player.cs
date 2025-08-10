@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 public class Player : BaseEntity {
@@ -7,4 +8,7 @@ public class Player : BaseEntity {
 	public int Xp { get; set; }
 	public string UserId { get; set; } = string.Empty;
 	public IdentityUser User { get; set; } = null!;
+	public ICollection<Storage> Storage { get; set; } = null!;
+	public ICollection<Patch> Patches { get; set; } = null!;
+	public ICollection<Building> Buildings { get; set; } = null!;
 }
