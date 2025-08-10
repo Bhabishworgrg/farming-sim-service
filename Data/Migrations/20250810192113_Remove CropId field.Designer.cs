@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FarmingSimService.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250810192113_Remove CropId field")]
+    partial class RemoveCropIdfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Buildings", (string)null);
+                    b.ToTable("Buildings");
                 });
 
             modelBuilder.Entity("BuildingType", b =>
@@ -80,7 +83,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BuildingType", (string)null);
+                    b.ToTable("BuildingType");
                 });
 
             modelBuilder.Entity("CropType", b =>
@@ -109,7 +112,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CropType", (string)null);
+                    b.ToTable("CropType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -340,7 +343,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Patches", (string)null);
+                    b.ToTable("Patches");
                 });
 
             modelBuilder.Entity("Player", b =>
@@ -372,7 +375,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Players", (string)null);
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("Storage", b =>
@@ -398,7 +401,7 @@ namespace FarmingSimService.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("Storage", (string)null);
+                    b.ToTable("Storage");
                 });
 
             modelBuilder.Entity("Building", b =>
