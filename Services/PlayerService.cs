@@ -3,10 +3,10 @@ using System.Linq;
 using System.Net;
 
 public class PlayerService : IPlayerService {
-	private IBaseRepository _repository;
+	private IPlayerRepository _repository;
 	private ITokenService _tokenService;
 
-	public PlayerService(IBaseRepository repository, ITokenService tokenService) {
+	public PlayerService(IPlayerRepository repository, ITokenService tokenService) {
 		_repository = repository;
 		_tokenService = tokenService;
 	}
@@ -19,6 +19,7 @@ public class PlayerService : IPlayerService {
 				Message = "User is not authenticated."
 			};
 		}
+
 		Player player = new() {
 			Username=requestDto.Username,
 			Xp=requestDto.Xp,
@@ -78,6 +79,59 @@ public class PlayerService : IPlayerService {
 			Message=result.Message
 		};
     }
+
+	public DataResult<PlayerFullResponseDto> ReadMe() {
+		string? userId = _tokenService.GetUserIdFromToken();
+		if (userId == null) {
+			return new DataResult<PlayerFullResponseDto> {
+				StatusCode = (int) HttpStatusCode.Unauthorized,
+				Message = "User is not authenticated."
+			};
+		}
+
+		DataResult<Player> result = _repository.ReadByUserId(userId);
+
+		PlayerFullResponseDto? fullResponseDto = (result.Model == null) ? null : new() {
+			Id = result.Model.Id,
+			Username = result.Model.Username,
+			Xp = result.Model.Xp,
+			Coins = result.Model.Coins,
+			Level = result.Model.Level,
+			Storage = result.Model.Storage.Select(
+				storage => new StorageResponseDto {
+					Id=storage.Id,
+					Quantity=storage.Quantity,
+					CropTypeId=storage.CropTypeId
+				}
+			).ToList(),
+			Patches = result.Model.Patches.Select(
+				patch => new PatchResponseDto {
+					Id=patch.Id,
+					Stage=patch.Stage,
+					PlantedTime=patch.PlantedTime,
+					X=patch.X,
+					Y=patch.Y,
+					CropTypeId=patch.CropTypeId
+				}
+			).ToList(),
+			Buildings = result.Model.Buildings.Select(
+				building => new BuildingResponseDto {
+					Id=building.Id,
+					Type=building.Type,
+					Level=building.Level,
+					X=building.X,
+					Y=building.Y,
+					BuildingTypeId=building.BuildingTypeId
+				}
+			).ToList()
+		};
+
+		return new DataResult<PlayerFullResponseDto> {
+			Model=fullResponseDto,
+			StatusCode=result.StatusCode,
+			Message=result.Message
+		};
+	}
 
     public DataResult<PlayerResponseDto> Update(int id, PlayerRequestDto requestDto) {
 		Player player = new() {
