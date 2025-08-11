@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthorization();
+builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler<Building>>();
+builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler<Patch>>();
+builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler<Storage>>();
+
+builder.Services.AddScoped<IResourceService, ResourceService>();
+
+builder.Services.AddAuthorization(options =>
+	options.AddPolicy("AdminOrOwner", policy =>
+		policy.Requirements.Add(new AdminOrOwnerRequirement()))
+);
 
 builder.Services.AddControllers();
 
@@ -56,7 +66,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 WebApplication app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers().RequireAuthorization();
+app.MapControllers().RequireAuthorization(policyNames: "AdminOrOwner");
 
 using (IServiceScope scope = app.Services.CreateScope()) {
 	RoleManager<IdentityRole> roleManager = scope.ServiceProvider
