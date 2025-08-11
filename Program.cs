@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(
 );
 
 builder.Services.AddIdentityCore<IdentityUser>()
+	.AddRoles<IdentityRole>()
 	.AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -56,4 +57,17 @@ WebApplication app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers().RequireAuthorization();
+
+using (IServiceScope scope = app.Services.CreateScope()) {
+	RoleManager<IdentityRole> roleManager = scope.ServiceProvider
+		.GetRequiredService<RoleManager<IdentityRole>>();
+
+	string[] roles = { "Admin", "Player" };
+	foreach (string role in roles) {
+		if (!roleManager.RoleExistsAsync(role).Result) {
+			roleManager.CreateAsync(new IdentityRole(role)).Wait();
+		}
+	}
+}
+
 app.Run();
