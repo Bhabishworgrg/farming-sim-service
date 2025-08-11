@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]s")]
+[Route("api/[controller]")]
 public class StorageController {
 	private IStorageService _service;
 

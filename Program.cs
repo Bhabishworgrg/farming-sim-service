@@ -47,8 +47,9 @@ builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler<Storage>>(
 
 builder.Services.AddScoped<IResourceService, ResourceService>();
 
+string adminOrOwnerPolicy = "AdminOrOwner";
 builder.Services.AddAuthorization(options =>
-	options.AddPolicy("AdminOrOwner", policy =>
+	options.AddPolicy(adminOrOwnerPolicy, policy =>
 		policy.Requirements.Add(new AdminOrOwnerRequirement()))
 );
 
@@ -66,13 +67,13 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 WebApplication app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers().RequireAuthorization(policyNames: "AdminOrOwner");
+app.MapControllers().RequireAuthorization(policyNames: adminOrOwnerPolicy);
 
 using (IServiceScope scope = app.Services.CreateScope()) {
 	RoleManager<IdentityRole> roleManager = scope.ServiceProvider
 		.GetRequiredService<RoleManager<IdentityRole>>();
 
-	string[] roles = { "Admin", "Player" };
+	string[] roles = { Roles.ADMIN, Roles.PLAYER };
 	foreach (string role in roles) {
 		if (!roleManager.RoleExistsAsync(role).Result) {
 			roleManager.CreateAsync(new IdentityRole(role)).Wait();

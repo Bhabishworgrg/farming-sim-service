@@ -21,7 +21,7 @@ public class AdminOrOwnerHandler<T> : AuthorizationHandler<AdminOrOwnerRequireme
 		AuthorizationHandlerContext context,
 		AdminOrOwnerRequirement requirement
 	) {
-		if (context.User.IsInRole("Admin")) {
+		if (context.User.IsInRole(Roles.ADMIN)) {
 			context.Succeed(requirement);
 			return Task.CompletedTask;
 		}

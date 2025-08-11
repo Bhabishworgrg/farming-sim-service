@@ -35,7 +35,7 @@ public class AuthService : IAuthService {
 			};
 		}
 
-		_userManager.AddToRoleAsync(user, "Player").Wait();
+		_userManager.AddToRoleAsync(user, Roles.PLAYER).Wait();
 
 		PlayerRequestDto playerRequestDto = new() {
 			Username=requestDto.Username
