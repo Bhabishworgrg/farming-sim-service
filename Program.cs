@@ -47,11 +47,14 @@ builder.Services.AddScoped<IAuthorizationHandler, AdminOrOwnerHandler<Storage>>(
 
 builder.Services.AddScoped<IResourceService, ResourceService>();
 
-string adminOrOwnerPolicy = "AdminOrOwner";
-builder.Services.AddAuthorization(options =>
-	options.AddPolicy(adminOrOwnerPolicy, policy =>
-		policy.Requirements.Add(new AdminOrOwnerRequirement()))
-);
+builder.Services.AddAuthorization(options => {
+	options.AddPolicy("AdminOrOwnerBuilding", policy =>
+		policy.Requirements.Add(new AdminOrOwnerRequirement()));
+	options.AddPolicy("AdminOrOwnerPatch", policy =>
+		policy.Requirements.Add(new AdminOrOwnerRequirement()));
+	options.AddPolicy("AdminOrOwnerStorage", policy =>
+		policy.Requirements.Add(new AdminOrOwnerRequirement()));
+});
 
 builder.Services.AddControllers();
 
@@ -67,7 +70,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 WebApplication app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers().RequireAuthorization(policyNames: adminOrOwnerPolicy);
+app.MapControllers().RequireAuthorization();
 
 using (IServiceScope scope = app.Services.CreateScope()) {
 	RoleManager<IdentityRole> roleManager = scope.ServiceProvider

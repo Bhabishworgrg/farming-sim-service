@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -20,6 +21,7 @@ public class StorageController {
 		return _service.Read(id);
 	}
 
+	[Authorize(Roles = Roles.ADMIN)]
 	[HttpGet]
 	public DataResult<List<StorageResponseDto>> ReadAll() {
 		return _service.ReadAll(); 
