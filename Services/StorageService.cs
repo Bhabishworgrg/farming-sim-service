@@ -9,16 +9,18 @@ public class StorageService : IStorageService {
 	}
 
     public DataResult<StorageResponseDto> Create(StorageRequestDto requestDto) {
-		Storage building = new() {
+		Storage storage = new() {
 			Quantity=requestDto.Quantity,
+			CropTypeId=requestDto.CropTypeId,
 			PlayerId=requestDto.PlayerId
 		};
 
-		DataResult<Storage> result = _repository.Create(building);
+		DataResult<Storage> result = _repository.Create(storage);
 
 		StorageResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
 			Quantity=result.Model.Quantity,
+			CropTypeId=result.Model.CropTypeId,
 			PlayerId=result.Model.PlayerId
 		};
 
@@ -34,6 +36,7 @@ public class StorageService : IStorageService {
 		StorageResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
 			Quantity=result.Model.Quantity,
+			CropTypeId=result.Model.CropTypeId,
 			PlayerId=result.Model.PlayerId
 		};
 
@@ -47,10 +50,11 @@ public class StorageService : IStorageService {
     public DataResult<List<StorageResponseDto>> ReadAll() {
 		DataResult<List<Storage>> result = _repository.ReadAll<Storage>();
 
-		List<StorageResponseDto> responseDtos = result.Model!.Select(building => new StorageResponseDto {
-			Id=building.Id,
-			Quantity=building.Quantity,
-			PlayerId=building.PlayerId
+		List<StorageResponseDto> responseDtos = result.Model!.Select(storage => new StorageResponseDto {
+			Id=storage.Id,
+			Quantity=storage.Quantity,
+			CropTypeId=storage.CropTypeId,
+			PlayerId=storage.PlayerId
 		}).ToList();
 
 		return new DataResult<List<StorageResponseDto>> {
@@ -61,17 +65,19 @@ public class StorageService : IStorageService {
     }
 
     public DataResult<StorageResponseDto> Update(int id, StorageRequestDto requestDto) {
-		Storage building = new() {
+		Storage storage = new() {
 			Id=id,
 			Quantity=requestDto.Quantity,
+			CropTypeId=requestDto.CropTypeId,
 			PlayerId=requestDto.PlayerId
 		};
 
-		DataResult<Storage> result = _repository.Update(building);
+		DataResult<Storage> result = _repository.Update(storage);
 
 		StorageResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
 			Quantity=result.Model.Quantity,
+			CropTypeId=result.Model.CropTypeId,
 			PlayerId=result.Model.PlayerId
 		};
 
