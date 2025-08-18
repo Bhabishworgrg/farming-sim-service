@@ -6,4 +6,5 @@ public interface IPatchService {
 	public DataResult<List<PatchResponseDto>> ReadAll();
 	public DataResult<PatchResponseDto> Update(int id, PatchRequestDto requestDto);
 	public DataResult<PatchResponseDto> Delete(int id);
+	public bool IsOwner(int id, string userId);
 }

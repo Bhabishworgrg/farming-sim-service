@@ -96,4 +96,18 @@ public class StorageService : IStorageService {
 			Message=result.Message
 		};
     }
+
+	public bool IsOwner(int id, string userId) {
+		Storage? storage = _repository.Read<Storage>(id).Model;
+		if (storage == null) {
+			return false;
+		}
+
+		Player? player = _repository.Read<Player>(storage.PlayerId).Model;
+		if (player == null) {
+			return false;
+		}
+
+		return player.UserId == userId;
+	}
 }

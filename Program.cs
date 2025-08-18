@@ -42,9 +42,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IAuthorizationHandler, BuildingOwnerHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, PatchOwnerHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, StorageOwnerHandler>();
 
 builder.Services.AddAuthorization(options => {
 	options.AddPolicy(Policies.Owner.Building, policy =>
+		policy.Requirements.Add(new OwnerRequirement()));
+	options.AddPolicy(Policies.Owner.Patch, policy =>
+		policy.Requirements.Add(new OwnerRequirement()));
+	options.AddPolicy(Policies.Owner.Storage, policy =>
 		policy.Requirements.Add(new OwnerRequirement()));
 });
 

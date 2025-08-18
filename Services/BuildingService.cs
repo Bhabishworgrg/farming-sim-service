@@ -108,8 +108,8 @@ public class BuildingService : IBuildingService {
 		};
     }
 
-	public bool IsOwner(int buildingId, string userId) {
-		Building? building = _repository.Read<Building>(buildingId).Model;
+	public bool IsOwner(int id, string userId) {
+		Building? building = _repository.Read<Building>(id).Model;
 		if (building == null) {
 			return false;
 		}

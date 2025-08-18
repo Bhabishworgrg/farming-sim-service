@@ -108,4 +108,18 @@ public class PatchService : IPatchService {
 			Message=result.Message
 		};
     }
+
+	public bool IsOwner(int id, string userId) {
+		Patch? patch = _repository.Read<Patch>(id).Model;
+		if (patch == null) {
+			return false;
+		}
+
+		Player? player = _repository.Read<Player>(patch.PlayerId).Model;
+		if (player == null) {
+			return false;
+		}
+
+		return player.UserId == userId;
+	}
 }

@@ -6,6 +6,5 @@ public interface IStorageService {
 	public DataResult<List<StorageResponseDto>> ReadAll();
 	public DataResult<StorageResponseDto> Update(int id, StorageRequestDto requestDto);
 	public DataResult<StorageResponseDto> Delete(int id);
+	public bool IsOwner(int id, string userId);
 }
-
-
