@@ -10,22 +10,22 @@ public class BuildingService : IBuildingService {
 
     public DataResult<BuildingResponseDto> Create(BuildingRequestDto requestDto) {
 		Building building = new() {
-			Type=requestDto.Type,
 			Level=requestDto.Level,
 			X=requestDto.X,
 			Y=requestDto.Y,
-			PlayerId=requestDto.PlayerId
+			PlayerId=requestDto.PlayerId,
+			BuildingTypeId=requestDto.BuildingTypeId
 		};
 
 		DataResult<Building> result = _repository.Create(building);
 
 		BuildingResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
-			Type=result.Model.Type,
 			Level=result.Model.Level,
 			X=result.Model.X,
 			Y=result.Model.Y,
-			PlayerId=result.Model.PlayerId
+			PlayerId=result.Model.PlayerId,
+			BuildingTypeId=result.Model.BuildingTypeId
 		};
 
 		return new DataResult<BuildingResponseDto> {
@@ -39,11 +39,11 @@ public class BuildingService : IBuildingService {
 		DataResult<Building> result = _repository.Read<Building>(id);
 		BuildingResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
-			Type=result.Model.Type,
 			Level=result.Model.Level,
 			X=result.Model.X,
 			Y=result.Model.Y,
-			PlayerId=result.Model.PlayerId
+			PlayerId=result.Model.PlayerId,
+			BuildingTypeId=result.Model.BuildingTypeId
 		};
 
 		return new DataResult<BuildingResponseDto> {
@@ -58,11 +58,11 @@ public class BuildingService : IBuildingService {
 
 		List<BuildingResponseDto> responseDtos = result.Model!.Select(building => new BuildingResponseDto {
 			Id=building.Id,
-			Type=building.Type,
 			Level=building.Level,
 			X=building.X,
 			Y=building.Y,
-			PlayerId=building.PlayerId
+			PlayerId=building.PlayerId,
+			BuildingTypeId=building.BuildingTypeId
 		}).ToList();
 
 		return new DataResult<List<BuildingResponseDto>> {
@@ -75,22 +75,22 @@ public class BuildingService : IBuildingService {
     public DataResult<BuildingResponseDto> Update(int id, BuildingRequestDto requestDto) {
 		Building building = new() {
 			Id=id,
-			Type=requestDto.Type,
 			Level=requestDto.Level,
 			X=requestDto.X,
 			Y=requestDto.Y,
-			PlayerId=requestDto.PlayerId
+			PlayerId=requestDto.PlayerId,
+			BuildingTypeId=requestDto.BuildingTypeId
 		};
 
 		DataResult<Building> result = _repository.Update(building);
 
 		BuildingResponseDto? responseDto = (result.Model == null) ? null : new() {
 			Id=result.Model.Id,
-			Type=result.Model.Type,
 			Level=result.Model.Level,
 			X=result.Model.X,
 			Y=result.Model.Y,
-			PlayerId=result.Model.PlayerId
+			PlayerId=result.Model.PlayerId,
+			BuildingTypeId=result.Model.BuildingTypeId
 		};
 
 		return new DataResult<BuildingResponseDto> {
@@ -109,4 +109,3 @@ public class BuildingService : IBuildingService {
 		};
     }
 }
-

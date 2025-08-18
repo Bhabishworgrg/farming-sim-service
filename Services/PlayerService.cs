@@ -119,7 +119,6 @@ public class PlayerService : IPlayerService {
 			Buildings = result.Model.Buildings.Select(
 				building => new BuildingResponseDto {
 					Id=building.Id,
-					Type=building.Type,
 					Level=building.Level,
 					X=building.X,
 					Y=building.Y,
