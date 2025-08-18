@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Models;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,12 @@ builder.Services.AddAuthorization(options => {
 
 builder.Services.AddControllers();
 
+builder.Services.AddSwaggerGen(options =>
+	options.SwaggerDoc("api", new OpenApiInfo {
+		Title = "Farming Sim API"
+	})
+);
+
 builder.Services.AddScoped<IBaseRepository, BaseRepository>();
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
@@ -66,6 +73,16 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 WebApplication app = builder.Build();
+
+app.UseSwagger(options =>
+	options.RouteTemplate = "{documentName}.json"
+);
+
+app.UseSwaggerUI(options => {
+	options.SwaggerEndpoint("api.json", "API Documentation");
+	options.RoutePrefix = "";
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers().RequireAuthorization();

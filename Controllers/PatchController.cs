@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("api/[controller]s")]
+[Route("api/[controller]es")]
 public class PatchController {
 	private IPatchService _service;
 
