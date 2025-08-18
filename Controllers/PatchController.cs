@@ -16,6 +16,7 @@ public class PatchController {
 		return _service.Create(requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Patch)]
 	[HttpGet("{id}")]
 	public DataResult<PatchResponseDto> Read([FromRoute] int id) {
 		return _service.Read(id);
@@ -27,11 +28,13 @@ public class PatchController {
 		return _service.ReadAll(); 
 	}
 
+	[Authorize(Policy = Policies.Owner.Patch)]
 	[HttpPut("{id}")]
 	public DataResult<PatchResponseDto> Update([FromRoute] int id, PatchRequestDto requestDto) {
 		return _service.Update(id, requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Patch)]
 	[HttpDelete("{id}")]
 	public DataResult<PatchResponseDto> Delete([FromRoute] int id) {
 		return _service.Delete(id);

@@ -11,7 +11,6 @@ public class BuildingController {
 		_service = service;
 	}
 
-	[Authorize(Policy = Policies.Owner.Building)]
 	[HttpPost]
 	public DataResult<BuildingResponseDto> Create(BuildingRequestDto requestDto) {
 		return _service.Create(requestDto);

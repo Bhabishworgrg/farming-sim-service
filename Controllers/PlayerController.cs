@@ -11,6 +11,7 @@ public class PlayerController : ControllerBase {
 		_service = service;
 	}
 
+	[Authorize(Roles = Roles.ADMIN)]
 	[HttpPost]
 	public DataResult<PlayerResponseDto> Create(PlayerRequestDto requestDto) {
 		return _service.Create(requestDto);

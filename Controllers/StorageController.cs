@@ -16,6 +16,7 @@ public class StorageController {
 		return _service.Create(requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Storage)]
 	[HttpGet("{id}")]
 	public DataResult<StorageResponseDto> Read([FromRoute] int id) {
 		return _service.Read(id);
@@ -27,11 +28,13 @@ public class StorageController {
 		return _service.ReadAll(); 
 	}
 
+	[Authorize(Policy = Policies.Owner.Storage)]
 	[HttpPut("{id}")]
 	public DataResult<StorageResponseDto> Update([FromRoute] int id, StorageRequestDto requestDto) {
 		return _service.Update(id, requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Storage)]
 	[HttpDelete("{id}")]
 	public DataResult<StorageResponseDto> Delete([FromRoute] int id) {
 		return _service.Delete(id);
