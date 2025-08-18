@@ -11,11 +11,13 @@ public class BuildingController {
 		_service = service;
 	}
 
+	[Authorize(Policy = Policies.Owner.Building)]
 	[HttpPost]
 	public DataResult<BuildingResponseDto> Create(BuildingRequestDto requestDto) {
 		return _service.Create(requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Building)]
 	[HttpGet("{id}")]
 	public DataResult<BuildingResponseDto> Read([FromRoute] int id) {
 		return _service.Read(id);
@@ -27,11 +29,13 @@ public class BuildingController {
 		return _service.ReadAll(); 
 	}
 
+	[Authorize(Policy = Policies.Owner.Building)]
 	[HttpPut("{id}")]
 	public DataResult<BuildingResponseDto> Update([FromRoute] int id, BuildingRequestDto requestDto) {
 		return _service.Update(id, requestDto);
 	}
 
+	[Authorize(Policy = Policies.Owner.Building)]
 	[HttpDelete("{id}")]
 	public DataResult<BuildingResponseDto> Delete([FromRoute] int id) {
 		return _service.Delete(id);
