@@ -6,5 +6,6 @@ public interface IBuildingService {
 	public DataResult<List<BuildingResponseDto>> ReadAll();
 	public DataResult<BuildingResponseDto> Update(int id, BuildingRequestDto requestDto);
 	public DataResult<BuildingResponseDto> Delete(int id);
+	public bool IsOwner(int id, string userId);
 }
 

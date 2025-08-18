@@ -89,8 +89,7 @@ public class BuildingService : IBuildingService {
 			Level=result.Model.Level,
 			X=result.Model.X,
 			Y=result.Model.Y,
-			PlayerId=result.Model.PlayerId,
-			BuildingTypeId=result.Model.BuildingTypeId
+			PlayerId=result.Model.PlayerId
 		};
 
 		return new DataResult<BuildingResponseDto> {
@@ -108,4 +107,18 @@ public class BuildingService : IBuildingService {
 			Message=result.Message
 		};
     }
+
+	public bool IsOwner(int buildingId, string userId) {
+		Building? building = _repository.Read<Building>(buildingId).Model;
+		if (building == null) {
+			return false;
+		}
+
+		Player? player = _repository.Read<Player>(building.PlayerId).Model;
+		if (player == null) {
+			return false;
+		}
+
+		return player.UserId == userId;
+	}
 }
